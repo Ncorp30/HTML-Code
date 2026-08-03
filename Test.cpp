@@ -15,6 +15,10 @@ using namespace std;
 class Solution {
 public:
     vector<vector<int>> updateMatrix(vector<vector<int>>& matrix) {
+        if (matrix.empty() || matrix[0].empty()) {
+            return matrix;
+        }
+
         const int sentinel = static_cast<int>(matrix.size() + matrix[0].size());
 
         for (int i = 0; i < matrix.size(); ++i) {
@@ -56,6 +60,10 @@ public:
 class Solution2 {
 public:
     vector<vector<int>> updateMatrix(vector<vector<int>>& matrix) {
+        if (matrix.empty() || matrix[0].empty()) {
+            return matrix;
+        }
+
         const int sentinel = static_cast<int>(matrix.size() + matrix[0].size());
         vector<vector<int> > dp(matrix.size(),
                                 vector<int>(matrix[0].size(),
@@ -100,6 +108,10 @@ public:
 class Solution3 {
 public:
     vector<vector<int>> updateMatrix(vector<vector<int>>& matrix) {
+        if (matrix.empty() || matrix[0].empty()) {
+            return matrix;
+        }
+
         queue<pair<int, int>> queue;
         for (int i = 0; i < matrix.size(); ++i) {
             for (int j = 0; j < matrix[0].size(); ++j) {

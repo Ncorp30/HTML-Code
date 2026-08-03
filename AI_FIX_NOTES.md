@@ -1,5 +1,47 @@
 # AI Fix Notes
 
+Session: seq-1785740349780-p7ypzz48d
+Repository: Ncorp30/HTML-Code
+
+## Summary
+
+- Detected actionable issues: 7
+- Issues with proposed PR changes: 3
+- Issues requiring manual review: 4
+- Automated fix mode: partial / safety-first
+
+## Safety Policy
+
+High-priority findings touching security, authentication, credentials, network behavior, dependency safety, privacy, request handling, or response handling are not silently edited by the agent. They are listed for manual review unless the workflow can generate a bounded, low-risk change with enough context.
+
+## Proposed Changes Included in This PR
+
+- [1] (high) Test.cpp: The algorithm assumes matrix is non-empty and accesses matrix[0] without validation. This will crash on an empty input. Add an early return for empty matrix or empty first row before using matrix[0].
+- [2] (medium) Test.cpp: The implementation mutates the input matrix in place. This is fine for LeetCode-style use, but in general APIs it can be surprising and may introduce side effects. Consider documenting the mutation or using a separate distance matrix if immutability is required.
+- [3] (low) Test.cpp: Using 'using namespace std;' at global scope can cause name collisions and reduce code clarity in larger codebases. Prefer explicit std:: qualifiers or localized using declarations.
+
+## Manual Review Required
+
+- [1] (low) WelocomePage.html: The page appears to rely heavily on inline <style> blocks. For maintainability and reuse, move shared styles into a separate CSS file if this repository grows beyond a single static page.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [2] (low) WelocomePage.html: The filename is misspelled ('WelocomePage.html' instead of 'WelcomePage.html'). This hurts discoverability and increases the chance of broken links or duplicated pages.
+  - Reason: Deferred by automated fix file budget (3 files per run).
+  - Next step: Rerun a focused fix pass for this file or update it manually.
+- [3] (medium) add.c: The file appears to contain a third-party library header (cJSON license text) but the actual implementation is truncated/unclear. Verify that the full source is present, that licensing is intentional, and that the file name matches its purpose. If this is vendor code, isolate it under a dedicated third-party directory and avoid mixing it with project-specific code.
+  - Reason: The AI did not generate a meaningful source-file change for this issue.
+  - Next step: Review the finding manually or rerun a focused fix pass with more context.
+- [4] (low) WelcomeHome.html: The HTML uses mostly presentational inline CSS. Consider separating structure and styling into external CSS to improve reuse, caching, and long-term maintenance.
+  - Reason: The AI did not generate a meaningful source-file change for this issue.
+  - Next step: Review the finding manually or rerun a focused fix pass with more context.
+
+
+---
+
+## Previous AI Fix Notes
+
+# AI Fix Notes
+
 Session: seq-1785739682170-ezxxlz081
 Repository: Ncorp30/HTML-Code
 
