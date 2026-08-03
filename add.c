@@ -20,6 +20,10 @@
   THE SOFTWARE.
 */
 
+/*
+ * cJSON add API tests.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
