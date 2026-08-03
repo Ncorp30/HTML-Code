@@ -1,20 +1,32 @@
+#include <algorithm>
+#include <limits>
+#include <queue>
+#include <utility>
+#include <vector>
+
+using namespace std;
+
 // Time:  O(m * n)
 // Space: O(1)
 
-// dp solution
+// Two-pass DP solution.
+// First pass relaxes from top/left, second pass relaxes from bottom/right.
+// Use a finite sentinel to avoid overflow when adding 1.
 class Solution {
 public:
     vector<vector<int>> updateMatrix(vector<vector<int>>& matrix) {
+        const int sentinel = static_cast<int>(matrix.size() + matrix[0].size());
+
         for (int i = 0; i < matrix.size(); ++i) {
             for (int j = 0; j < matrix[i].size(); ++j) {
                 if (!matrix[i][j]) {
                     continue;
                 }
-                matrix[i][j] = numeric_limits<int>::max();
-                if (i > 0 && matrix[i - 1][j] != numeric_limits<int>::max()) {
+                matrix[i][j] = sentinel;
+                if (i > 0 && matrix[i - 1][j] != sentinel) {
                     matrix[i][j] = min(matrix[i][j], matrix[i - 1][j] + 1);
                 }
-                if (j > 0 && matrix[i][j - 1] != numeric_limits<int>::max()) {
+                if (j > 0 && matrix[i][j - 1] != sentinel) {
                     matrix[i][j] = min(matrix[i][j], matrix[i][j - 1] + 1);
                 }
             }
@@ -25,10 +37,10 @@ public:
                 if (!matrix[i][j]) {
                     continue;
                 }
-                if (i < matrix.size() - 1 && matrix[i + 1][j] != numeric_limits<int>::max()) {
+                if (i < matrix.size() - 1 && matrix[i + 1][j] != sentinel) {
                     matrix[i][j] = min(matrix[i][j], matrix[i + 1][j] + 1);
                 }
-                if (j < matrix[i].size() - 1 && matrix[i][j + 1] != numeric_limits<int>::max()) {
+                if (j < matrix[i].size() - 1 && matrix[i][j + 1] != sentinel) {
                     matrix[i][j] = min(matrix[i][j], matrix[i][j + 1] + 1);
                 }
             }
@@ -44,19 +56,20 @@ public:
 class Solution2 {
 public:
     vector<vector<int>> updateMatrix(vector<vector<int>>& matrix) {
+        const int sentinel = static_cast<int>(matrix.size() + matrix[0].size());
         vector<vector<int> > dp(matrix.size(),
                                 vector<int>(matrix[0].size(),
-                                            numeric_limits<int>::max()));
+                                            sentinel));
 
         for (int i = 0; i < matrix.size(); ++i) {
             for (int j = 0; j < matrix[i].size(); ++j) {
                 if (matrix[i][j] == 0) {
                     dp[i][j] = 0;
                 } else {
-                    if (i > 0 && dp[i - 1][j] != numeric_limits<int>::max()) {
+                    if (i > 0 && dp[i - 1][j] != sentinel) {
                         dp[i][j] = min(dp[i][j], dp[i - 1][j] + 1);
                     }
-                    if (j > 0 && dp[i][j - 1] != numeric_limits<int>::max()) {
+                    if (j > 0 && dp[i][j - 1] != sentinel) {
                         dp[i][j] = min(dp[i][j], dp[i][j - 1] + 1);
                     }
                 }
@@ -68,10 +81,10 @@ public:
                 if (matrix[i][j] == 0) {
                     dp[i][j] = 0;
                 } else {
-                    if (i < matrix.size() - 1 && dp[i + 1][j] != numeric_limits<int>::max()) {
+                    if (i < matrix.size() - 1 && dp[i + 1][j] != sentinel) {
                         dp[i][j] = min(dp[i][j], dp[i + 1][j] + 1);
                     }
-                    if (j < matrix[i].size() - 1 && dp[i][j + 1] != numeric_limits<int>::max()) {
+                    if (j < matrix[i].size() - 1 && dp[i][j + 1] != sentinel) {
                         dp[i][j] = min(dp[i][j], dp[i][j + 1] + 1);
                     }
                 }

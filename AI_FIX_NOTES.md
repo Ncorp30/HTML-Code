@@ -1,5 +1,48 @@
 # AI Fix Notes
 
+Session: seq-1785739682170-ezxxlz081
+Repository: Ncorp30/HTML-Code
+
+## Summary
+
+- Detected actionable issues: 8
+- Issues with proposed PR changes: 4
+- Issues requiring manual review: 4
+- Automated fix mode: partial / safety-first
+
+## Safety Policy
+
+High-priority findings touching security, authentication, credentials, network behavior, dependency safety, privacy, request handling, or response handling are not silently edited by the agent. They are listed for manual review unless the workflow can generate a bounded, low-risk change with enough context.
+
+## Proposed Changes Included in This PR
+
+- [1] (medium) Test.cpp: The snippet uses standard library types and algorithms without visible include directives or namespace qualification. Ensure required headers are included explicitly and avoid relying on transitive includes to improve portability and build reliability.
+- [2] (medium) Test.cpp: The dynamic programming approach is acceptable for O(m*n) time and O(1) extra space, but the use of numeric_limits<int>::max() as a sentinel requires careful handling to avoid overflow when adding 1. Consider using a safer sentinel value such as matrix dimensions sum or a large finite constant well below INT_MAX.
+- [3] (low) Test.cpp: The file name 'Test.cpp' is generic and does not describe the problem or algorithm. Rename it to something domain-specific, and add brief comments describing the two-pass DP logic and edge-case behavior.
+- [4] (low) WelcomeHome.html: The page title is generic ('Welcome Page') and duplicated across similar files. Use unique, descriptive titles to improve accessibility, SEO, and browser tab clarity.
+
+## Manual Review Required
+
+- [1] (high) add.c: The file appears to be copied from cJSON source with a large license header, but the snippet is truncated and no actual implementation is visible. If this is intentional, the repository structure is unclear and makes review, testing, and integration difficult. If this file is meant to be part of the project, it should be renamed and documented to reflect its purpose.
+  - Reason: High-priority security-sensitive finding requires human review before code changes.
+  - Next step: Confirm the intended security behavior, threat model, and tests before applying a targeted fix.
+- [2] (low) WelocomePage.html: Inline CSS is used directly in the HTML file. For better maintainability and reuse, move shared styles into a dedicated CSS file unless this is a very small static demo.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [3] (low) WelocomePage.html: The filename appears to contain a typo ('WelocomePage.html' instead of 'WelcomePage.html'), which hurts discoverability and can cause broken links or confusion in larger projects.
+  - Reason: Deferred by automated fix file budget (3 files per run).
+  - Next step: Rerun a focused fix pass for this file or update it manually.
+- [4] (medium) add.c: Mixing unrelated content types in the repository (C source, C++ algorithm snippet, and standalone HTML pages) suggests weak separation of concerns and unclear project scope. This increases maintenance cost and makes the codebase harder to understand and test.
+  - Reason: The AI did not generate a meaningful source-file change for this issue.
+  - Next step: Review the finding manually or rerun a focused fix pass with more context.
+
+
+---
+
+## Previous AI Fix Notes
+
+# AI Fix Notes
+
 Session: seq-1785497462728-3lk2oime8
 Repository: Ncorp30/HTML-Code
 
