@@ -20,6 +20,11 @@
   THE SOFTWARE.
 */
 
+/*
+ * This file contains cJSON "add" API tests and is part of the project's test
+ * suite. The filename is retained for compatibility with the existing build.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
