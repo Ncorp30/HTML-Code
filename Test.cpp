@@ -18,17 +18,19 @@ public:
         if (matrix.empty()) {
             return matrix;
         }
+        const size_t rowCount = matrix.size();
+        const size_t colCount = matrix[0].size();
         for (const auto& row : matrix) {
-            if (row.empty()) {
+            if (row.size() != colCount || row.empty()) {
                 return matrix;
             }
         }
 
-        const int sentinel = static_cast<int>(matrix.size() + matrix[0].size());
+        const int sentinel = static_cast<int>(rowCount + colCount);
 
-        for (int i = 0; i < matrix.size(); ++i) {
-            const int rowSize = static_cast<int>(matrix[i].size());
-            for (int j = 0; j < rowSize; ++j) {
+        for (size_t i = 0; i < rowCount; ++i) {
+            const size_t rowSize = matrix[i].size();
+            for (size_t j = 0; j < rowSize; ++j) {
                 if (!matrix[i][j]) {
                     continue;
                 }
@@ -42,16 +44,16 @@ public:
             }
         }
 
-        for (int i = matrix.size() - 1; i >= 0; --i) {
-            const int rowSize = static_cast<int>(matrix[i].size());
-            for (int j = rowSize - 1; j >= 0; --j) {
+        for (size_t i = rowCount; i-- > 0;) {
+            const size_t rowSize = matrix[i].size();
+            for (size_t j = rowSize; j-- > 0;) {
                 if (!matrix[i][j]) {
                     continue;
                 }
-                if (i < matrix.size() - 1 && matrix[i + 1][j] != sentinel) {
+                if (i + 1 < rowCount && matrix[i + 1][j] != sentinel) {
                     matrix[i][j] = min(matrix[i][j], matrix[i + 1][j] + 1);
                 }
-                if (j < rowSize - 1 && matrix[i][j + 1] != sentinel) {
+                if (j + 1 < rowSize && matrix[i][j + 1] != sentinel) {
                     matrix[i][j] = min(matrix[i][j], matrix[i][j + 1] + 1);
                 }
             }
@@ -70,20 +72,22 @@ public:
         if (matrix.empty()) {
             return matrix;
         }
+        const size_t rowCount = matrix.size();
+        const size_t colCount = matrix[0].size();
         for (const auto& row : matrix) {
-            if (row.empty()) {
+            if (row.size() != colCount || row.empty()) {
                 return matrix;
             }
         }
 
-        const int sentinel = static_cast<int>(matrix.size() + matrix[0].size());
-        vector<vector<int> > dp(matrix.size(),
-                                vector<int>(matrix[0].size(),
+        const int sentinel = static_cast<int>(rowCount + colCount);
+        vector<vector<int> > dp(rowCount,
+                                vector<int>(colCount,
                                             sentinel));
 
-        for (int i = 0; i < matrix.size(); ++i) {
-            const int rowSize = static_cast<int>(matrix[i].size());
-            for (int j = 0; j < rowSize; ++j) {
+        for (size_t i = 0; i < rowCount; ++i) {
+            const size_t rowSize = matrix[i].size();
+            for (size_t j = 0; j < rowSize; ++j) {
                 if (matrix[i][j] == 0) {
                     dp[i][j] = 0;
                 } else {
@@ -97,16 +101,16 @@ public:
             }
         }
 
-        for (int i = matrix.size() - 1; i >= 0; --i) {
-            const int rowSize = static_cast<int>(matrix[i].size());
-            for (int j = rowSize - 1; j >= 0; --j) {
+        for (size_t i = rowCount; i-- > 0;) {
+            const size_t rowSize = matrix[i].size();
+            for (size_t j = rowSize; j-- > 0;) {
                 if (matrix[i][j] == 0) {
                     dp[i][j] = 0;
                 } else {
-                    if (i < matrix.size() - 1 && dp[i + 1][j] != sentinel) {
+                    if (i + 1 < rowCount && dp[i + 1][j] != sentinel) {
                         dp[i][j] = min(dp[i][j], dp[i + 1][j] + 1);
                     }
-                    if (j < rowSize - 1 && dp[i][j + 1] != sentinel) {
+                    if (j + 1 < rowSize && dp[i][j + 1] != sentinel) {
                         dp[i][j] = min(dp[i][j], dp[i][j + 1] + 1);
                     }
                 }
@@ -122,9 +126,19 @@ public:
 class Solution3 {
 public:
     vector<vector<int>> updateMatrix(vector<vector<int>>& matrix) {
-        queue<pair<int, int>> queue;
-        for (int i = 0; i < matrix.size(); ++i) {
-            for (int j = 0; j < matrix[0].size(); ++j) {
+        queue<pair<size_t, size_t>> queue;
+        if (matrix.empty()) {
+            return matrix;
+        }
+        const size_t rowCount = matrix.size();
+        const size_t colCount = matrix[0].size();
+        for (const auto& row : matrix) {
+            if (row.size() != colCount || row.empty()) {
+                return matrix;
+            }
+        }
+        for (size_t i = 0; i < rowCount; ++i) {
+            for (size_t j = 0; j < colCount; ++j) {
                 if (matrix[i][j] == 0) {
                     queue.emplace(i, j);
                 }
@@ -139,14 +153,14 @@ public:
             auto cell = queue.front();
             queue.pop();
             for (const auto& dir : dirs) {
-                auto i = cell.first + dir.first;
-                auto j = cell.second + dir.second;
-                if (!(0 <= i && i < matrix.size() && 0 <= j && j < matrix[0].size() && 
-                      matrix[i][j] > matrix[cell.first][cell.second] + 1)) {
+                const long long i = static_cast<long long>(cell.first) + dir.first;
+                const long long j = static_cast<long long>(cell.second) + dir.second;
+                if (!(0 <= i && i < static_cast<long long>(rowCount) && 0 <= j && j < static_cast<long long>(colCount) &&
+                      matrix[static_cast<size_t>(i)][static_cast<size_t>(j)] > matrix[cell.first][cell.second] + 1)) {
                         continue;
                 }
-                queue.emplace(i, j);
-                matrix[i][j] = matrix[cell.first][cell.second] + 1;
+                queue.emplace(static_cast<size_t>(i), static_cast<size_t>(j));
+                matrix[static_cast<size_t>(i)][static_cast<size_t>(j)] = matrix[cell.first][cell.second] + 1;
             }
         }
         
