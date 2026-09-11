@@ -15,10 +15,20 @@ using namespace std;
 class Solution {
 public:
     vector<vector<int>> updateMatrix(vector<vector<int>>& matrix) {
+        if (matrix.empty()) {
+            return matrix;
+        }
+        for (const auto& row : matrix) {
+            if (row.empty()) {
+                return matrix;
+            }
+        }
+
         const int sentinel = static_cast<int>(matrix.size() + matrix[0].size());
 
         for (int i = 0; i < matrix.size(); ++i) {
-            for (int j = 0; j < matrix[i].size(); ++j) {
+            const int rowSize = static_cast<int>(matrix[i].size());
+            for (int j = 0; j < rowSize; ++j) {
                 if (!matrix[i][j]) {
                     continue;
                 }
@@ -33,14 +43,15 @@ public:
         }
 
         for (int i = matrix.size() - 1; i >= 0; --i) {
-            for (int j = matrix[i].size() - 1; j >= 0; --j) {
+            const int rowSize = static_cast<int>(matrix[i].size());
+            for (int j = rowSize - 1; j >= 0; --j) {
                 if (!matrix[i][j]) {
                     continue;
                 }
                 if (i < matrix.size() - 1 && matrix[i + 1][j] != sentinel) {
                     matrix[i][j] = min(matrix[i][j], matrix[i + 1][j] + 1);
                 }
-                if (j < matrix[i].size() - 1 && matrix[i][j + 1] != sentinel) {
+                if (j < rowSize - 1 && matrix[i][j + 1] != sentinel) {
                     matrix[i][j] = min(matrix[i][j], matrix[i][j + 1] + 1);
                 }
             }
@@ -56,13 +67,23 @@ public:
 class Solution2 {
 public:
     vector<vector<int>> updateMatrix(vector<vector<int>>& matrix) {
+        if (matrix.empty()) {
+            return matrix;
+        }
+        for (const auto& row : matrix) {
+            if (row.empty()) {
+                return matrix;
+            }
+        }
+
         const int sentinel = static_cast<int>(matrix.size() + matrix[0].size());
         vector<vector<int> > dp(matrix.size(),
                                 vector<int>(matrix[0].size(),
                                             sentinel));
 
         for (int i = 0; i < matrix.size(); ++i) {
-            for (int j = 0; j < matrix[i].size(); ++j) {
+            const int rowSize = static_cast<int>(matrix[i].size());
+            for (int j = 0; j < rowSize; ++j) {
                 if (matrix[i][j] == 0) {
                     dp[i][j] = 0;
                 } else {
@@ -77,14 +98,15 @@ public:
         }
 
         for (int i = matrix.size() - 1; i >= 0; --i) {
-            for (int j = matrix[i].size() - 1; j >= 0; --j) {
+            const int rowSize = static_cast<int>(matrix[i].size());
+            for (int j = rowSize - 1; j >= 0; --j) {
                 if (matrix[i][j] == 0) {
                     dp[i][j] = 0;
                 } else {
                     if (i < matrix.size() - 1 && dp[i + 1][j] != sentinel) {
                         dp[i][j] = min(dp[i][j], dp[i + 1][j] + 1);
                     }
-                    if (j < matrix[i].size() - 1 && dp[i][j + 1] != sentinel) {
+                    if (j < rowSize - 1 && dp[i][j + 1] != sentinel) {
                         dp[i][j] = min(dp[i][j], dp[i][j + 1] + 1);
                     }
                 }
