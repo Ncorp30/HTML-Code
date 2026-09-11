@@ -1,5 +1,49 @@
 # AI Fix Notes
 
+Session: seq-1789108655126-9i0mb5tb9
+Repository: Ncorp30/HTML-Code
+
+## Summary
+
+- Detected actionable issues: 7
+- Issues with proposed PR changes: 2
+- Issues requiring manual review: 5
+- Automated fix mode: partial / safety-first
+
+## Safety Policy
+
+High-priority findings touching security, authentication, credentials, network behavior, dependency safety, privacy, request handling, or response handling are not silently edited by the agent. They are listed for manual review unless the workflow can generate a bounded, low-risk change with enough context.
+
+## Proposed Changes Included in This PR
+
+- [1] (medium) Test.cpp: The implementation uses a matrix-based dynamic programming approach with a finite sentinel, but the shown code suggests potential type-safety and bounds risks when using int for sizes and indices. Prefer size_t for dimensions, and verify all row lengths are consistent before indexing.
+- [2] (medium) Test.cpp: The algorithm is O(m*n), which is acceptable, but the function copies no data and mutates in place. If input immutability is required, this may be surprising. If the matrix can be large, consider a BFS solution for clarity and predictable behavior on sparse matrices.
+
+## Manual Review Required
+
+- [1] (high) add.c: File content is truncated in the provided sample, but the file appears to include third-party cJSON license text. Verify the full source for unsafe memory handling, unchecked allocations, integer overflows, and bounds issues typical of C code. C files require careful review for memory safety and input validation.
+  - Reason: High-priority security-sensitive finding requires human review before code changes.
+  - Next step: Confirm the intended security behavior, threat model, and tests before applying a targeted fix.
+- [2] (low) WelcomeHome.html: The page appears to be a static landing page with inline CSS. This is fine for a prototype, but reusing shared styling would improve consistency and reduce duplication across similar pages.
+  - Reason: The AI did not generate a meaningful source-file change for this issue.
+  - Next step: Review the finding manually or rerun a focused fix pass with more context.
+- [3] (low) WelcomeHome.html: Because the file is duplicated in style with WelocomePage.html, verify links/navigation and ensure the intended page names match exactly. Case-sensitive hosting or typoed filenames can break navigation.
+  - Reason: The AI did not generate a meaningful source-file change for this issue.
+  - Next step: Review the finding manually or rerun a focused fix pass with more context.
+- [4] (low) WelocomePage.html: Filename is misspelled ('WelocomePage.html' instead of 'WelcomePage.html'), which hurts discoverability and can lead to broken links or confusion in deployments.
+  - Reason: The AI did not generate a meaningful source-file change for this issue.
+  - Next step: Review the finding manually or rerun a focused fix pass with more context.
+- [5] (low) WelocomePage.html: The page appears to embed all CSS inline. For a small demo this is acceptable, but for maintainability and reuse, extract styles into a separate stylesheet and consider separating structure, presentation, and behavior.
+  - Reason: The AI did not generate a meaningful source-file change for this issue.
+  - Next step: Review the finding manually or rerun a focused fix pass with more context.
+
+
+---
+
+## Previous AI Fix Notes
+
+# AI Fix Notes
+
 Session: seq-1789107065694-a069qmgts
 Repository: Ncorp30/HTML-Code
 
