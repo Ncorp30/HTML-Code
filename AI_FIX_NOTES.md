@@ -1,5 +1,45 @@
 # AI Fix Notes
 
+Session: seq-1791816199782-gomy312n9
+Repository: Ncorp30/HTML-Code
+
+## Summary
+
+- Detected actionable issues: 7
+- Issues with proposed PR changes: 4
+- Issues requiring manual review: 3
+- Automated fix mode: partial / safety-first
+
+## Safety Policy
+
+High-priority findings touching security, authentication, credentials, network behavior, dependency safety, privacy, request handling, or response handling are not silently edited by the agent. They are listed for manual review unless the workflow can generate a bounded, low-risk change with enough context.
+
+## Proposed Changes Included in This PR
+
+- [1] (critical) WelcomeHome.html: Broken CSS syntax in the body rule (`body` is missing `{`), which prevents the stylesheet from parsing correctly and likely breaks all subsequent styles on the page.
+- [2] (medium) Test.cpp: The implementation assumes all rows have the same length but only checks for empty rows. If the matrix is ragged, indexing with `matrix[i].size()` and later operations may produce incorrect behavior or out-of-range access.
+- [3] (medium) Test.cpp: The algorithm is O(m*n) and appropriate for this problem, but the use of `int` for sizes and repeated casts from `size_t` may introduce signed/unsigned mismatch warnings and reduce robustness. Prefer `size_t` for dimensions and indexes.
+- [4] (low) Test.cpp: Uses `using namespace std;` at global scope. This is a common C++ anti-pattern that can cause name collisions in larger codebases and should be avoided in headers and shared code.
+
+## Manual Review Required
+
+- [1] (high) add.c: Only the license header is visible; the actual implementation cannot be inspected. This prevents verification for memory-safety issues, input validation, or unsafe library usage in a C source file, which is security-sensitive by default.
+  - Reason: High-priority security-sensitive finding requires human review before code changes.
+  - Next step: Confirm the intended security behavior, threat model, and tests before applying a targeted fix.
+- [2] (high) WelocomePage.html: Filename appears misspelled (`WelocomePage.html`), which increases the risk of broken links, duplicated content, and hard-to-find navigation issues.
+  - Reason: The AI did not generate a meaningful source-file change for this issue.
+  - Next step: Review the finding manually or rerun a focused fix pass with more context.
+- [3] (medium) WelocomePage.html: Inline CSS is used for the full page styling. This is acceptable for a small demo, but it does not scale well and makes reuse, testing, and maintenance harder.
+  - Reason: The AI did not generate a meaningful source-file change for this issue.
+  - Next step: Review the finding manually or rerun a focused fix pass with more context.
+
+
+---
+
+## Previous AI Fix Notes
+
+# AI Fix Notes
+
 Session: seq-1789107065694-a069qmgts
 Repository: Ncorp30/HTML-Code
 
